@@ -16,6 +16,11 @@ require_once(__DIR__ . '/requete.php');
 // Pagination
 require_once(__DIR__ . '/pagination.php');
 $countIn = 0;
+if (isset($_GET['erreurLitDeaffecter'])) {
+    $_SESSION['erreurLitDeaffecter'] = $_GET['erreurLitDeaffecter'];
+} else {
+    $_SESSION['erreurLitDeaffecter'] = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -41,7 +46,8 @@ $countIn = 0;
         </div>
         <div class="row">
             <div class="col-md-11">
-                <h6>Lit déja validés:<br> <span> <?= $_SESSION['classe']; ?> </span></span></h6>
+                <h4>Lit déja validés:<br> <span> <?= $_SESSION['classe']; ?> </span></span></h4>
+                <h5 style="color: red;"> <?= $_SESSION['erreurLitDeaffecter']; ?> </h5>
             </div>
             <div class="col-md-12">
                 <ul class="options">
@@ -88,9 +94,6 @@ $countIn = 0;
                     <div class="col-md-2">
                         <input type='reset' onclick="choixs()" class="btn btn-outline-danger fw-bold">
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-outline-primary fw-bold" type='submit'>ANNULER</button>
-                    </div>
                 <?php } else { ?> <style>
                         .option {
                             pointer-events: none;
@@ -113,7 +116,9 @@ $countIn = 0;
                 // Fermez la connexion
                 mysqli_close($connexion);
                 ?>
-
+                <div class="col-md-2">
+                    <button class="btn btn-outline-primary fw-bold" type='submit'>ANNULER</button>
+                </div>  
             </div>
             </form>
             </ul>

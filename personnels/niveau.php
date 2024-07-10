@@ -41,7 +41,7 @@ require_once(__DIR__ . '/requete.php'); ?>
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <select class="form-select" id="selectFac" aria-label="Default select example" onchange="populateData()" required="required">
-                            <option value="" selected>Faculté</option>
+                            <option value="" selected>Choisir Faculté</option>
                             <?php
                             while ($rowNiv = mysqli_fetch_array($resultatRequeteEtablissement)) { ?>
                                 <option value="<?= $rowNiv['etablissement']; ?>"><?= $rowNiv['etablissement']; ?></option>
@@ -51,7 +51,7 @@ require_once(__DIR__ . '/requete.php'); ?>
                     </div>
                     <div class="col-md-4 mb-3">
                         <select class="form-select" aria-label="Default select example" id="selectDep" required="required">
-                            <option value="" selected>Département</option>
+                            <option value="" selected>Choisir Département</option>
                             <?php
                             for ($i = 0; $i < count($tableauDataFaculte); $i++) { ?>
                                 <option value="<?= $tableauDataFaculte[$i]; ?>"><?= $tableauDataFaculte[$i]; ?></option>
@@ -61,7 +61,7 @@ require_once(__DIR__ . '/requete.php'); ?>
                     </div>
                     <div class="col-md-4 mb-3">
                         <select class="form-select" aria-label="Default select example" required="required" id="selectClasse">
-                            <option value="" selected>Classe</option>
+                            <option value="" selected>Choisir Classe</option>
                             <?php
                             for ($i = 0; $i < count($tableauDataDepartement); $i++) { ?>
                                 <option value="<?= $tableauDataDepartement[$i]; ?>"><?= $tableauDataDepartement[$i]; ?></option>

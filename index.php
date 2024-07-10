@@ -75,7 +75,7 @@ if (!empty($_SESSION['username']) && !empty($_SESSION['mdp'])) {
 
 <body>
   <div class="container mt-5">
-    <form class="login-form" action="/personnels/connect.php">
+    <form class="login-form" action="/codif/personnels/connect.php">
       <img src="images/images.png" width="200" alt="">
       <!-- <h2>Connexion</h2> -->
       <div class="form-group">

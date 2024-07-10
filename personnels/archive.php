@@ -7,6 +7,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['mdp'])) {
 }
 require_once('connect.php');
 if (isset($_GET) && count($_GET) > 0) {
+    $_SESSION['erreurLitAffecter']='';
     $countError = 0;
     // Parcourir le tableau associatif pour récupérer les ID des boutons sélectionnés
     foreach ($_GET as $buttonId => $value) {
@@ -27,7 +28,7 @@ if (isset($_GET) && count($_GET) > 0) {
         exit();
     }
 } else {
-    header('Location: listeLits.php');
+    header('Location: listeLits.php?erreurLitAffecter=VEUILLER CHOISIR UN LIT !!!');
     exit();
 }
 require_once('close.php');

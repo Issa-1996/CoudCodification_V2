@@ -6,13 +6,16 @@ if (empty($_SESSION['username']) && empty($_SESSION['mdp'])) {
     exit();
 }
 require_once('../personnels/connect.php');
+$_SESSION['errorSaisi']=0;
 if (isset($_GET) && count($_GET) > 0) {
     $countError = 0;
     $lastValue = null;
+    $_SESSION['erreurLitCodifier']='';
     // Parcourir le tableau associatif pour récupérer les ID des boutons sélectionnés
     foreach ($_GET as $buttonId => $value) {
         // Vérifier si la valeur est "on" (ce qui signifie que la case à cocher est cochée)
         if ($value === "on") {
+            $_SESSION['errorSaisi']=1;
             $lastValue = $buttonId;
         } else {
             $countError++;
@@ -29,7 +32,9 @@ if (isset($_GET) && count($_GET) > 0) {
         exit();
     }
 } else {
-    header('Location: codifier.php');
+    header('Location: codifier.php?erreurLitCodifier=VEUILLER SELECTIONNER UN LIT !!!');
     exit();
 }
+
+
 // require_once('close.php');

@@ -11,6 +11,11 @@ require('../personnels/connect.php');
 require('../personnels/requete.php');
 // Pagination
 require('../personnels/pagination.php');
+if (isset($_GET['erreurLitCodifier'])) {
+    $_SESSION['erreurLitCodifier'] = $_GET['erreurLitCodifier'];
+} else {
+    $_SESSION['erreurLitCodifier'] = '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -36,7 +41,8 @@ require('../personnels/pagination.php');
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h6>Liste des lits pour la : <span><?= $_SESSION['classe']; ?></span> </h6>
+                <h4>Liste des lits pour la : <span><?= $_SESSION['classe']; ?></span> </h4>
+                <h5 style="color: red;"> <?= $_SESSION['erreurLitCodifier']; ?> </h5>
             </div>
             <div class="col-md-12">
                 <ul class="options">
@@ -78,7 +84,7 @@ require('../personnels/pagination.php');
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-2">
-                    <input type='reset' onclick="resetAndReload()" class="btn btn-outline-danger fw-bold" title="Annulé la selectionnée">
+                    <input type='reset' onclick="choi()" class="btn btn-outline-danger fw-bold" title="Annulé la selectionnée" value="REINITIALISER">
                 </div>
                 <div class="col-md-2">
                     <select class='form-select' onchange='location = this.value;'>
@@ -98,7 +104,12 @@ require('../personnels/pagination.php');
                 mysqli_close($connexion);
                 ?>
                 <div class="col-md-2">
-                    <button class="btn btn-outline-primary fw-bold" type='submit' title="Sauvegarder les lits selectionnés">Codifier</button>
+                    <button class="btn btn-outline-success fw-bold" type="submit" title="Sauvegarder les lits selectionnés">VALIDER</button>
+                    <!-- Button trigger modal -->
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        Launch demo modal
+                    </button> -->
+                    <!-- <input class="btn btn-outline-success fw-bold" data-toggle="modal" data-target="#exampleModalCenter" title="Sauvegarder les lits selectionnés" value="Codifier"> -->
                 </div>
             </div>
             </form>
@@ -108,9 +119,8 @@ require('../personnels/pagination.php');
 </body>
 
 <script>
-    function resetAndReload() {
-        document.getElementById("myForm").reset(); // Réinitialise le formulaire
-        window.location.reload(); // Actualise la page
+    function choi() {
+        window.location.href = "codifier.php";
     }
 </script>
 <script src="../personnels/script.js"></script>

@@ -42,6 +42,7 @@ function choix() {
 function choixs() {
   window.location.href = "detailsLits.php";
 }
+
 // Fonction pour définir un cookie
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();

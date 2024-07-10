@@ -56,12 +56,24 @@ if (isset($_GET['fac']) && !empty($_GET['fac'])) {
 // Liste des chambres deja affecter a une classe selon le niveau de la classe
 $requeteLitClasse = "SELECT codif_lit.*, CASE WHEN quotas.id_lit_q IS NOT NULL AND affectation.id_lit IS NOT NULL THEN 'Migré dans les deux' WHEN quotas.id_lit_q IS NOT NULL THEN 'Migré vers quotas uniquement' WHEN affectation.id_lit IS NOT NULL THEN 'Migré vers affectation uniquement' ELSE 'Non migré' END AS statut_migration FROM codif_lit LEFT JOIN quotas ON codif_lit.id_lit = quotas.id_lit_q LEFT JOIN affectation ON codif_lit.id_lit = affectation.id_lit WHERE quotas.NiveauFormation = '$classe' LIMIT $limit OFFSET $offset";
 $resultatRequeteLitClasse = mysqli_query($connexion, $requeteLitClasse);
-
 // affichage de toutes les lits de la table cofif_lit avec les option migré et non migré
-$requeteTotalLit = "SELECT codif_lit.*, CASE WHEN quotas.id_lit_q IS NOT NULL THEN 'Migré' ELSE 'Non migré' END AS statut_migration FROM codif_lit LEFT JOIN quotas ON codif_lit.id_lit = quotas.id_lit_q LIMIT $limit OFFSET $offset";
-$resultatRequeteTotalLit = mysqli_query($connexion, $requeteTotalLit);
-
-// affichage des lits pour l'etudiant connecté selon le quotas de sa classe
-$classe = $_SESSION['classe'];
+$sql = "SELECT codif_lit.*, CASE WHEN quotas.id_lit_q IS NOT NULL THEN 'Migré' ELSE 'Non migré' END AS statut_migration FROM codif_lit LEFT JOIN quotas ON codif_lit.id_lit = quotas.id_lit_q LIMIT $limit OFFSET $offset";
+$resultatRequeteTotalLit = mysqli_query($connexion, $sql);
+// Liste des chambres deja affecter a une classe selon le niveau de la classe
+// $classe = $_SESSION['classe'];
 $requeteLitClasseEtudiant = "SELECT codif_lit.*, CASE WHEN quotas.id_lit_q IS NOT NULL AND affectation.id_lit IS NOT NULL THEN 'Migré dans les deux' WHEN quotas.id_lit_q IS NOT NULL THEN 'Migré vers quotas uniquement' WHEN affectation.id_lit IS NOT NULL THEN 'Migré vers affectation uniquement' ELSE 'Non migré' END AS statut_migration FROM codif_lit LEFT JOIN quotas ON codif_lit.id_lit = quotas.id_lit_q LEFT JOIN affectation ON codif_lit.id_lit = affectation.id_lit WHERE quotas.NiveauFormation = '$classe' LIMIT $limit OFFSET $offset";
 $resultRequeteLitClasseEtudiant = mysqli_query($connexion, $requeteLitClasseEtudiant);
+
+//Affiché la liste total des pavillon
+$requetePavillon = "SELECT DISTINCT (pavillon) FROM `codif_lit`";
+$resultatRequetePavillon = mysqli_query($connexion, $requetePavillon);
+
+// //filter total lits
+// $filter = isset($_POST['filter']) ? $_POST['filter'] : '';
+
+// // if ($filter) {
+//     $sql = "SELECT codif_lit.*, CASE WHEN quotas.id_lit_q IS NOT NULL AND affectation.id_lit IS NOT NULL THEN 'Migré dans les deux' WHEN quotas.id_lit_q IS NOT NULL THEN 'Migré vers quotas uniquement' WHEN affectation.id_lit IS NOT NULL THEN 'Migré vers affectation uniquement' ELSE 'Non migré' END AS statut_migration FROM codif_lit LEFT JOIN quotas ON codif_lit.id_lit = quotas.id_lit_q LEFT JOIN affectation ON codif_lit.id_lit = affectation.id_lit";
+//     $sql .= " WHERE pavillon LIKE '%" . $connexion->real_escape_string($filter) . "%' && quotas.NiveauFormation = '$classe' LIMIT $limit OFFSET $offset";
+//     $resultatRequeteTotal = mysqli_query($connexion, $sql);
+//     // header('Location: listeLits.php');
+// // }

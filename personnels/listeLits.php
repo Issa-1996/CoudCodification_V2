@@ -6,7 +6,7 @@ if (empty($_SESSION['username']) && empty($_SESSION['mdp'])) {
     exit();
 }
 if (empty($_SESSION['classe'])) {
-    $_SESSION['classe']=$_GET['classe'];
+    $_SESSION['classe'] = $_GET['classe'];
 }
 //connexion à la base de données
 require_once(__DIR__ . '/connect.php');
@@ -14,9 +14,23 @@ require_once(__DIR__ . '/connect.php');
 require_once(__DIR__ . '/pagination.php');
 // Sélectionnez les options à partir de la base de données avec une pagination
 require_once(__DIR__ . '/requete.php');
+// Récupérer l'objet de la session
+if (isset($_SESSION['monObjetRequeteFilter'])) {
+    $total_lit_pages= $_SESSION['paginationFilter'];
+    $monObjetRequeteFilter = $_SESSION['monObjetRequeteFilter'];
+    $monFilter = $_SESSION['monFilter'];
+    $resultatRequeteTotalLit = mysqli_query($connexion, $monObjetRequeteFilter);
+}
+
+if (isset($_GET['erreurLitAffecter'])) {
+    $_SESSION['erreurLitAffecter'] = $_GET['erreurLitAffecter'];
+} else {
+    $_SESSION['erreurLitAffecter'] = '';
+}
+
 ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr">    
 
 <head>
     <meta charset="UTF-8">
@@ -39,15 +53,28 @@ require_once(__DIR__ . '/requete.php');
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h6>Liste des lits </h6>
+                <h4>Affecter des lits à la classe:<br /><?= $_SESSION['classe']; ?> </h4>
+                <h5 style="color: red;"> <?= $_SESSION['erreurLitAffecter']; ?> </h5>
             </div>
             <div class="col-md-12">
                 <ul class="options">
+                    <div class="col-md-3">
+                        <form class="d-flex" role="search" method="POST" action="filtre.php" id="filterForm">
+                            <select class=" form-control me-2" placeholder="Search" aria-label="Search" name="filter" id="filter">
+                                <option disabled selected>FILTRE PAVILLONS</option>
+                                <?php
+                                while ($rowPavillon = mysqli_fetch_array($resultatRequetePavillon)) { ?>
+                                    <option value="<?= $rowPavillon['pavillon']; ?>"><?= $rowPavillon['pavillon']; ?></option>
+                                <?php } ?>
+                            </select>
+                            <button class="btn btn-outline-success" type="submit">FILTRER</button>
+                        </form>
+                    </div>
                     <form id="myForm" action="archive.php" method="GET">
                         <div class='options-container'>
                             <?php
                             while ($row = mysqli_fetch_array($resultatRequeteTotalLit)) {
-                                if ($counter % 8 == 0) { ?>
+                                if ($counter % 10 == 0) { ?>
                                     <div class='column'>
                                     <?php
                                 }
@@ -61,13 +88,13 @@ require_once(__DIR__ . '/requete.php');
                                     <?php
                                 }
                                 $counter++;
-                                if ($counter % 8 == 0) { ?>
+                                if ($counter % 10 == 0) { ?>
                                     </div>
                                 <?php
                                 }
                             }
                             // Fermeture de la dernière colonne si le nombre total d'options n'est pas un multiple de 4
-                            if ($counter % 8 != 0) { ?>
+                            if ($counter % 10 != 0) { ?>
                         </div>
 
                     <?php
@@ -75,7 +102,7 @@ require_once(__DIR__ . '/requete.php');
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-2">
-                    <input type='reset' onclick="choix()" class="btn btn-outline-danger fw-bold" title="Annulé la selectionnée">
+                    <input type='reset' onclick="choix()" class="btn btn-outline-danger fw-bold" title="Annulé la selection">
                 </div>
                 <div class="col-md-2">
                     <select class='form-select' onchange='location = this.value;'>
@@ -95,7 +122,7 @@ require_once(__DIR__ . '/requete.php');
                 mysqli_close($connexion);
                 ?>
                 <div class="col-md-2">
-                    <button class="btn btn-outline-primary fw-bold" type='submit' title="Sauvegarder les lits selectionnés">Enregistrer</button>
+                    <button class="btn btn-outline-success fw-bold bg-darkblue" type='submit' title="Sauvegarder les lits selectionnées">SAUVEGARDER</button>
                 </div>
             </div>
             </form>

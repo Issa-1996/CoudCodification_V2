@@ -1,6 +1,18 @@
 <?php
 // demarrerer la session
-session_start();
+//  session_start();
+// Verifier la session si elle est actif, sinon on redirige vers la racine
+if (empty($_SESSION['username']) && empty($_SESSION['mdp'])) {
+    header('Location: /');
+    exit();
+}
+// Verifier si la session stock toujours la valeur du niveau de la classe, sinon on l'initialise
+if (isset($_SESSION['classe'])) {
+    $classe = $_SESSION['classe'];
+} else {
+    $classe = "";
+}
+
 // appelle des pages de connexion et celle de la pagination
 require_once(__DIR__ . '/connect.php');
 // Pagination par page de 54 elements
@@ -20,13 +32,13 @@ if ($count_resultat_total) {
 }
 
 // Comptez le nombre total d'options dans la base de données: pagination liste lits d'une classe selon l'etudiant connecté dans la page codifier.php
-$count_queryEtudiant = "SELECT COUNT(*) as total FROM quotas JOIN codif_lit ON quotas.id_lit_q = codif_lit.id_lit where `NiveauFormation`='$classe' LIMIT $limit OFFSET $offset";
+$count_queryEtudiant = "SELECT COUNT(*) as total FROM quotas JOIN codif_lit ON quotas.id_lit_q = codif_lit.id_lit where `NiveauFormation`='$classe'";
 $count_resultEtudiant = mysqli_query($connexion, $count_queryEtudiant);
 if ($count_resultEtudiant) {
     $count_dataEtudiant = mysqli_fetch_assoc($count_resultEtudiant);
     $total_pagesEtudiant = ceil($count_dataEtudiant['total'] / $limit);
 } else {
-    $total_pagesEtu = 1; // Définir une valeur par défaut pour éviter une division par zéro
+    $total_pagesEtudiant = 1; // Définir une valeur par défaut pour éviter une division par zéro
 }
 
 // Comptez le nombre total d'options dans la base de données details lits affecter (quotas)

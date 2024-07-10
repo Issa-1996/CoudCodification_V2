@@ -14,7 +14,12 @@ body {
   width: 50%;
   text-align: center;
 }
-
+.navbar{
+    background-color: darkblue !important;
+}
+.navbar li a {
+    color: white;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -34,8 +39,8 @@ ul {
   font-weight: bold;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid #007bff;
-  color: #007bff;
+  border: 1px solid darkblue;
+  color: darkblue;
   background-color: transparent;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
@@ -55,8 +60,8 @@ ul {
   font-weight: bold;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid #007bff;
-  color: #007bff;
+  border: 1px solid darkblue;
+  color: darkblue;
   background-color: transparent;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
@@ -64,16 +69,16 @@ ul {
 }
 
 .option:hover {
-  background-color: #007bff;
+  background-color: darkblue;
   /* animation: scale 0.8s ease; */
-  transform: scale(1); /* Agrandir le bouton de 5% lors du survol */
+  transform: scale(1.2); /* Agrandir le bouton de 5% lors du survol */
   color: white;
   font-weight: bold;
 }
 .optionEtu:hover {
-  background-color: #007bff;
+  background-color: darkblue;
   /* animation: scale 0.8s ease; */
-  transform: scale(1); /* Agrandir le bouton de 5% lors du survol */
+  transform: scale(1.2); /* Agrandir le bouton de 5% lors du survol */
   color: white;
   font-weight: bold;
 }
@@ -92,7 +97,7 @@ ul {
   text-decoration: none;
   font-weight: bold;
   vertical-align: middle;
-  border: 1px solid #007bff;
+  border: 1px solid darkblue;
   color: white;
   background-color:red;
   border-radius: 0.25rem;
@@ -108,7 +113,7 @@ ul {
   /* Désactiver les clics */
   /* pointer-events: none;  */
   cursor: not-allowed;
-  background-color: #76944f !important;
+  background-color: green !important;
 }
 .optionEtu.disabled {
   color: #ffffff; /* Couleur de texte grise pour les options désactivées */
@@ -131,11 +136,15 @@ a {
   display: none;
 }
 span {
-  color:green;
+  color:red !important;
 }
 a {
     text-decoration: none !important;
 }
 li,a{
     font-weight:600;
+    font-size: 20px !important;
+}
+.form-select{
+  font-size: 20px !important;
 }
